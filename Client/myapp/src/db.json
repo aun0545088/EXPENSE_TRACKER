@@ -1,0 +1,72 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Groceries",
+      "expenses": [
+        {
+          "name": "Apples",
+          "amount": 3.99
+        },
+        {
+          "name": "Bread",
+          "amount": 2.49
+        },
+        {
+          "name": "Milk",
+          "amount": 1.99
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Entertainment",
+      "expenses": [
+        {
+          "name": "Movie tickets",
+          "amount": 12.99
+        },
+        {
+          "name": "Popcorn",
+          "amount": 5.99
+        },
+        {
+          "name": "Soda",
+          "amount": 3.99
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Transportation",
+      "expenses": [
+        {
+          "name": "Gas",
+          "amount": 35.99
+        },
+        {
+          "name": "Toll",
+          "amount": 5.99
+        },
+        {
+          "name": "Parking",
+          "amount": 10.99
+        }
+      ]
+    },
+    {
+      "name": "Hardware",
+      "expenses": [
+        {
+          "name": "Keyboard",
+          "amount": 10
+        },
+        {
+          "name": "Mouse",
+          "amount": 20
+        }
+      ],
+      "id": 4
+    }
+  ]
+}
