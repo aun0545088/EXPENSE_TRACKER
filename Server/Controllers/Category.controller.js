@@ -1,106 +1,85 @@
 const express = require("express");
 const CategoryModel = require("../Models/Category.Model");
+const ExpenseModel = require("../Models/Expense.model");
 const categoryController = express.Router();
 
-// Create a new category
-categoryController.post("/createCategory", async (req, res) => {
-  const { name, expenses, userId } = req.body;
-  const new_category = new CategoryModel({
-    name,
-    expenses,
-    userId,
-  });
-  try {
-    await new_category.save();
-    res.status(201).json("Category has been created", new_category);
-  } catch (error) {
-    res.status(404).json({ message: "Something went wrong" });
+const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
   }
+  return color;
+};
+
+// Create a new category
+categoryController.post("/create", async (req, res) => {
+  const catColor = getRandomColor();
+  const { category_name, userId } = req.body;
+  const new_category = new CategoryModel({
+    category_name,
+    userId,
+    catColor,
+  });
+  await new_category.save();
+  return res.status(201).json({ message: "Category has been created", data:new_category});
 });
 
 // Get all categories
-categoryController.get("/getCategories", async (req, res) => {
+categoryController.get("/", async (req, res) => {
   const { userId } = req.body;
   const categories = await CategoryModel.find({ userId });
-  if (categories) {
-    res.status(200).json({ message: "Successfull!", categories });
-  } else {
-    res.status(404).json({ message: "Something went wrong" });
-  }
+  return res.status(200).json({data:categories});
 });
 
-// Update a category by ID
-categoryController.patch("/updateCategory/:categoryId", async (req, res) => {
+// Get a category by ID
+categoryController.get("/:categoryId", async (req, res) => {
   const { categoryId } = req.params;
-  const { userId } = req.body;
   const category = await CategoryModel.findOne({ _id: categoryId });
-
   if (!category) {
     return res.status(404).json({ message: "Category not found" });
   }
+  res.status(200).json({data:category});
+});
+
+// Update a category by ID
+categoryController.patch("/edit/:categoryId", async (req, res) => {
+  const { categoryId } = req.params;
+  const { userId } = req.body;
+  const category = await CategoryModel.findOne({ _id: categoryId });
   if (category.userId === userId) {
     const new_category = await CategoryModel.findOneAndUpdate(
-      {
-        _id: categoryId,
-      },
+      { _id: categoryId },
       req.body,
       { new: true }
     );
+    await ExpenseModel.updateMany(
+      { categoryId: categoryId },
+      { category: new_category.category_name }
+    ); 
     return res.status(200).json({
       message: "Category has been updated successfully!",
-      new_category,
+      data:new_category,
     });
   } else {
-    return res.status(401).json({ message: "You are not authorized to do it" });
+    return res.json({ message: "You are not authorized to do it!" });
   }
 });
 
 // Delete a category by ID
-categoryController.delete("/deleteCategory/:categoryId", async (req, res) => {
+categoryController.delete("/delete/:categoryId", async (req, res) => {
   const { categoryId } = req.params;
   const { userId } = req.body;
   const category = await CategoryModel.findOne({ _id: categoryId });
-  if (!category) {
-    return res.status(404).json({ message: "Category not found" });
-  }
+
   if (category.userId === userId) {
     await CategoryModel.findOneAndDelete({ _id: categoryId });
+    await ExpenseModel.deleteMany({ categoryId: categoryId });
     return res
-      .status(201)
+      .status(202)
       .json({ message: "Category has been deleted successfully!" });
   } else {
-    return res.status(401).json({ message: "You are not authorized to do it" });
+    return res.json({ message: "you are not authorised to do it" });
   }
 });
-
-// Add an expense to a category
-categoryController.post(
-  "/addExpense/:categoryId/expenses",
-  async (req, res) => {
-    const { categoryId } = req.params;
-    const {name,amount} = req.body
-    const category = await CategoryModel.findOne({ _id: categoryId });
-
-    if (!category) {
-      return res.status(404).json({ message: "Category not found" });
-    }
-
-    const expense = {
-      name,
-      amount
-    };
-
-    category.expenses.push(expense);
-
-    try {
-      const updatedCategory = await category.save();
-      res.status(201).json(updatedCategory);
-    } catch (error) {
-      res.status(400).json({ message: "Something went wrong!" });
-    }
-  }
-);
-
-
-
 module.exports = categoryController;

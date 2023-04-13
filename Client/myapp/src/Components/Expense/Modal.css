@@ -1,0 +1,46 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .my-container .MuiSvgIcon-root {
+    color: red !important;
+  }
+  
+  .addButton {
+    margin: 0 0.5rem;
+  }
+  
+  .dialogTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .textfield {
+    margin: 1rem 0;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .cancelButton {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  
+  
+  .submitButton {
+    display: flex;
+    justify-content: end;
+    margin-top: 2rem;
+  }

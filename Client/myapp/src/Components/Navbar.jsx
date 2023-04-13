@@ -9,8 +9,7 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.clear("token");
-    localStorage.clear("name");
+    localStorage.clear();
     navigate("/");
     window.location.reload();
   };

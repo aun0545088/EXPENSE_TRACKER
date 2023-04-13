@@ -38,6 +38,7 @@ const Login = () => {
     setD(data.message)
     saveLocalData("token",data.token)
     saveLocalData("name",data.name)
+    saveLocalData("userId",data.userId)
     navigate("/expense-tracker")
   };
 
