@@ -4,9 +4,7 @@ import { FadeLoader } from "react-spinners";
 import { COLUMNS } from "../../Others/CategoryColumns";
 import "./CategoryTable.css";
 import "./Modal.css";
-import {
-  useGetCategoriesQuery,
-} from "../../app/categoryExpense/categoryExpenseApi";
+import { useGetCategoriesQuery } from "../../app/categoryExpense/categoryExpenseApi";
 
 export const CategoryTable = () => {
   const { data, isLoading, isError, refetch } = useGetCategoriesQuery();

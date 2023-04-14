@@ -1,14 +1,10 @@
 import React from "react";
 import { Box } from "@mui/material";
-import {
-  useGetAllExpensesQuery,
-  useGetCategoriesQuery,
-} from "../../app/categoryExpense/categoryExpenseApi";
+import { useGetAllExpensesQuery } from "../../app/categoryExpense/categoryExpenseApi";
 import { BarChart } from "./Barchart";
 
 const BarShow = () => {
-  const { data, refetch } = useGetAllExpensesQuery();
-  const { data: { data: catData } = [] } = useGetCategoriesQuery();
+  const { data } = useGetAllExpensesQuery();
   // console.log(catData)
   const expData = data?.data || [];
   console.log("expData", expData);

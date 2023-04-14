@@ -5,8 +5,6 @@ import { Doughnut } from "react-chartjs-2";
 
 const DoughnutChart = () => {
   const { data } = useGetAllExpensesQuery();
-  //   const { data: { data: catData } = [] } = useGetCategoriesQuery();
-  // console.log(catData)
   const expData = data?.data || [];
 
   const chartData = useMemo(() => {
@@ -43,6 +41,7 @@ const DoughnutChart = () => {
       ],
     };
   }, [expData]);
+  const chartOptions = {};
 
   return (
     <Box
@@ -53,7 +52,7 @@ const DoughnutChart = () => {
         height: "400px",
       }}
     >
-      <Doughnut data={chartData} />
+      <Doughnut data={chartData} options={chartOptions} />
     </Box>
   );
 };

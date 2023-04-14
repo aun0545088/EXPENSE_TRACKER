@@ -3,9 +3,7 @@ import React from "react";
 import { useGetAllExpensesQuery } from "../../app/categoryExpense/categoryExpenseApi";
 
 const TotalExpense = () => {
-  // assuming useGetAllExpensesQuery returns an array of expenses
   const { data: { data: response } = [] } = useGetAllExpensesQuery();
-  // console.log("tdata",response)
 
   // calculate total expense
   const totalExpense = response?.reduce(

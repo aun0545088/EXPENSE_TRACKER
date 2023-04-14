@@ -7,7 +7,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import EditIcon from "@mui/icons-material/Edit";
 
-import { useGetCategoriesQuery, useGetCategoryByIdQuery, useUpdateCategoryMutation } from "../../app/categoryExpense/categoryExpenseApi";
+import {
+  useGetCategoriesQuery,
+  useGetCategoryByIdQuery,
+  useUpdateCategoryMutation,
+} from "../../app/categoryExpense/categoryExpenseApi";
 
 export default function EditCategory({ cell }) {
   const [open, setOpen] = useState(false);
@@ -16,13 +20,16 @@ export default function EditCategory({ cell }) {
   });
   const cat_id = cell.row.original._id;
   // console.log(cat_id)
-  const { data: {data:singleCategory} = {} } = useGetCategoryByIdQuery(cat_id, {
-    skip: !cat_id,
-  });
+  const { data: { data: singleCategory } = {} } = useGetCategoryByIdQuery(
+    cat_id,
+    {
+      skip: !cat_id,
+    }
+  );
   // console.log(singleCategory)
-  const [updateCategory] = useUpdateCategoryMutation()
- 
-  const { refetch } = useGetCategoriesQuery()
+  const [updateCategory] = useUpdateCategoryMutation();
+
+  const { refetch } = useGetCategoriesQuery();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,7 +51,7 @@ export default function EditCategory({ cell }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(singleCategory._id, formData);
-    updateCategory({ categoryId: singleCategory._id, data:formData })
+    updateCategory({ categoryId: singleCategory._id, data: formData })
       .unwrap()
       .then(() => {
         refetch();
@@ -80,7 +87,6 @@ export default function EditCategory({ cell }) {
             />
             <br />
             <br />
-            
 
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Submit

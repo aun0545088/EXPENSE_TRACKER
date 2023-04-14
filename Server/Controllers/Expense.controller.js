@@ -5,9 +5,9 @@ const expenseController = express.Router();
 
 // Create a new expense
 expenseController.post("/create", async (req, res) => {
-  const { expense_name,amount, category } = req.body;
+  const { expense_name, amount, category } = req.body;
   const mainCategory = await CategoryModel.findOne({ category_name: category });
-  console.log(mainCategory)
+  console.log(mainCategory);
   const categoryId = mainCategory._id;
   // const userId = mainCategory.userId;
   const new_expense = new ExpenseModel({
@@ -39,16 +39,7 @@ expenseController.get("/:expenseId", async (req, res) => {
   }
 });
 
-// Calculate total expenses
-expenseController.get("/total", async (req, res) => {
-  // const { userId } = req.params;
-  const expenses = await ExpenseModel.find();
-  const total = expenses.reduce((acc, expense) => acc + expense.amount, 0);
-  return res.json({ message: "successfull!", data: total });
-});
-
-
-// Update an expense by ID
+// Update an expense
 expenseController.patch("/edit/:expenseId", async (req, res) => {
   const { expenseId } = req.params;
   const new_expense = await ExpenseModel.updateOne(
@@ -56,12 +47,12 @@ expenseController.patch("/edit/:expenseId", async (req, res) => {
     req.body
   );
   return res.json({
-    message: "Category has been updated successfully!",
+    message: "Expense has been updated successfully!",
     data: new_expense,
   });
 });
 
-// Delete an expense by ID
+// Delete an expense
 expenseController.delete("/delete/:expenseId", async (req, res) => {
   const { expenseId } = req.params;
 

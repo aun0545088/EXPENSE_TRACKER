@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, TextField, styled } from "@mui/material";
+import { Alert, Button, TextField, styled } from "@mui/material";
 import Navbar from "../Components/Navbar";
 import { useSignupMutation } from "../app/auth/userAuthApi";
 import { useNavigate } from "react-router-dom";
@@ -26,19 +26,49 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [signup, { isLoading }] = useSignupMutation();
+  const [status, setStatus] = useState(0);
+  const [message, setMessage] = useState("");
+  const [signup] = useSignupMutation();
   const navigate = useNavigate();
-  
 
   const loginHandler = async (e) => {
     e.preventDefault();
     const result = await signup({ email, name, password, phone }).unwrap();
     console.log(result);
-    //setData(result.data.message)
-    //setToken(result.data.token)
-    navigate("/login");
+    setStatus(result?.status);
+    setMessage(result?.message);
+    if (result?.status === 200) {
+      navigate("/login");
+    }
   };
-
+  let alertComponent = null;
+  if (status && status !== 200) {
+    alertComponent = (
+      <Alert
+        severity="error"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {message}
+      </Alert>
+    );
+  } else if (status === 200) {
+    alertComponent = (
+      <Alert
+        severity="success"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {message}
+      </Alert>
+    );
+  }
   return (
     <>
       <Navbar />
@@ -72,7 +102,6 @@ const SignUp = () => {
           value={phone}
           onChange={(event) => setPhone(event.target.value)}
         />
-        {/* {<span>{data}</span>} */}
         <StyledButton
           type="submit"
           variant="contained"
@@ -82,6 +111,7 @@ const SignUp = () => {
           SignUp
         </StyledButton>
       </StyledForm>
+      {alertComponent}
     </>
   );
 };

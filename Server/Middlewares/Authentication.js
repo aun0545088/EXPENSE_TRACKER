@@ -13,7 +13,7 @@ const authentication = (req, res, next) => {
     req.body.email = decoded.email;
     req.body.userId = decoded.userId;
 
-    // Generate new token and set as header in response
+    // Generate the new token and set as header in response
     const token = jwt.sign({ email: decoded.email, userId: decoded.userId }, "shhhhh", {
       expiresIn: "1h",
     });

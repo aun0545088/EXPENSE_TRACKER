@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { PacmanLoader } from "react-spinners";
-import { useDeleteCategoryMutation, useGetCategoriesQuery } from "../../app/categoryExpense/categoryExpenseApi";
+import {
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from "../../app/categoryExpense/categoryExpenseApi";
 
 const DeleteCategory = ({ cell }) => {
   const categoryId = cell.row.original._id;
@@ -13,7 +16,7 @@ const DeleteCategory = ({ cell }) => {
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await deleteCategory({categoryId});
+      await deleteCategory({ categoryId });
       setTimeout(() => {
         refetch();
         setLoading(false);
